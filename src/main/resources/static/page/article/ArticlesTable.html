@@ -20,14 +20,6 @@
                 <form class="layui-form" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">作者的用户ID</label>
-                            <div class="layui-input-inline">
-                                <input id="search-userId" type="text" name="userId"
-                                       placeholder="请输入作者的用户ID" autocomplete="off"
-                                       class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
                             <label class="layui-form-label">文章标题</label>
                             <div class="layui-input-inline">
                                 <input id="search-title" type="text" name="title"
@@ -40,22 +32,6 @@
                             <div class="layui-input-inline">
                                 <input id="search-slug" type="text" name="slug"
                                        placeholder="请输入文章的唯一标识符/别名 (用于URL，可选)" autocomplete="off"
-                                       class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">Markdown 格式的文章内容</label>
-                            <div class="layui-input-inline">
-                                <input id="search-contentMd" type="text" name="contentMd"
-                                       placeholder="请输入Markdown 格式的文章内容" autocomplete="off"
-                                       class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">封面图片URL</label>
-                            <div class="layui-input-inline">
-                                <input id="search-coverImageUrl" type="text" name="coverImageUrl"
-                                       placeholder="请输入封面图片URL" autocomplete="off"
                                        class="layui-input">
                             </div>
                         </div>
@@ -123,6 +99,17 @@
                                        class="layui-input">
                             </div>
                         </div>
+                        <div class="layui-input-inline">
+                            <input id="search-createTimeStartTime" type="text" placeholder="开始日期"
+                                   name="createTimeStartTime" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-form-mid">-</div>
+                        <div class="layui-input-inline">
+                            <input id="search-createTimeEndTime" type="text" placeholder="截止日期"
+                                   name="createTimeEndTime" autocomplete="off"
+                                   class="layui-input">
+                        </div>
                         <div class="layui-inline">
                             <button id="data-search-btn" type="submit" class="layui-btn layui-btn-sm layui-btn-normal"
                                     lay-submit
@@ -155,12 +142,60 @@
 </div>
 <script src="../../libs/layui/layui.js"></script>
 <script>
+    window.timeDifference = function (t1, t2) {
+        var date1 = new Date(t1);
+        var date2 = new Date(t2);
+        var date3 = date2.getTime() - date1.getTime(); //时间差的毫秒数
+        //计算出相差天数
+        var days = Math.floor(date3 / (24 * 3600 * 1000));
+        //计算出小时数
+        var leave1 = date3 % (24 * 3600 * 1000); //计算天数后剩余的毫秒数
+        var hours = Math.floor(leave1 / (3600 * 1000));
+        //计算相差分钟数
+        var leave2 = leave1 % (3600 * 1000); //计算小时数后剩余的毫秒数
+        var minutes = Math.floor(leave2 / (60 * 1000));
+        //计算相差秒数
+        var leave3 = leave2 % (60 * 1000); //计算分钟数后剩余的毫秒数
+        var seconds = Math.round(leave3 / 1000);
+        var result = "";
+        if (days !== 0) {
+            result = result + days + "天";
+        }
+        if (hours !== 0) {
+            result = result + hours + "小时";
+        }
+        if (minutes !== 0) {
+            result = result + minutes + "分钟";
+        }
+        if (seconds !== 0) {
+            result = result + seconds + "秒";
+        }
+        return result;
+    }
+
     layui.use(['form', 'table', 'laydate'], function () {
         var $ = layui.jquery,
             form = layui.form, laydate = layui.laydate,
             table = layui.table;
 
         let tableWhere = {}
+
+        // 日期范围
+        laydate.render({
+            elem: '#search-createTimeStartTime'
+        });
+        laydate.render({
+            elem: '#search-createTimeEndTime'
+        });
+        let createTimeStartTime = $("#search-createTimeStartTime").val();
+        let createTimeEndTime = $("#search-createTimeEndTime").val();
+        if (createTimeStartTime !== '') {
+            tableWhere.createTimeStartTime = createTimeStartTime;
+        }
+        if (createTimeEndTime !== '') {
+            tableWhere.createTimeEndTime = createTimeEndTime;
+        }
+
         tableWhere.id = $("#search-id").val();
         tableWhere.userId = $("#search-userId").val();
         tableWhere.title = $("#search-title").val();
