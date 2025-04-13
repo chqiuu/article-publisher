@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chqiuu.publisher.article.mapper.ArticlePublicationsMapper" >
+    <!-- 文章在各平台的发布记录 表名：`article_publications` -->
+    <sql id="Base_Column_List">
+        `id`,`article_id`,`platform_id`,`user_platform_account_id`,`status`,`platform_article_id`,`platform_article_url`,`error_message`,`last_attempt_at`,`published_at`,`last_success_sync_at`,`created_at`,`updated_at`
+    </sql>
+    <sql id="Base_AP_Column_List">
+        ap.`id`,ap.`article_id`,ap.`platform_id`,ap.`user_platform_account_id`,ap.`status`,ap.`platform_article_id`,ap.`platform_article_url`,ap.`error_message`,ap.`last_attempt_at`,ap.`published_at`,ap.`last_success_sync_at`,ap.`created_at`,ap.`updated_at`
+    </sql>
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="com.chqiuu.publisher.article.entity.ArticlePublicationsEntity">
+        <result property="id" column="id" />
+        <result property="articleId" column="article_id" />
+        <result property="platformId" column="platform_id" />
+        <result property="userPlatformAccountId" column="user_platform_account_id" />
+        <result property="status" column="status" />
+        <result property="platformArticleId" column="platform_article_id" />
+        <result property="platformArticleUrl" column="platform_article_url" />
+        <result property="errorMessage" column="error_message" />
+        <result property="lastAttemptAt" column="last_attempt_at" />
+        <result property="publishedAt" column="published_at" />
+        <result property="lastSuccessSyncAt" column="last_success_sync_at" />
+        <result property="createdAt" column="created_at" />
+        <result property="updatedAt" column="updated_at" />
+    </resultMap>
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BriefResultMap" type="com.chqiuu.publisher.article.dto.ArticlePublicationsBriefDTO">
+            <result property="id" column="id" />
+            <result property="articleId" column="article_id" />
+            <result property="platformId" column="platform_id" />
+            <result property="userPlatformAccountId" column="user_platform_account_id" />
+            <result property="status" column="status" />
+            <result property="platformArticleId" column="platform_article_id" />
+            <result property="platformArticleUrl" column="platform_article_url" />
+            <result property="errorMessage" column="error_message" />
+            <result property="lastAttemptAt" column="last_attempt_at" />
+            <result property="publishedAt" column="published_at" />
+            <result property="lastSuccessSyncAt" column="last_success_sync_at" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+    </resultMap>
+    <!--根据唯一ID获取简要信息-->
+    <select id="getBriefById" resultMap="BriefResultMap">
+        SELECT
+        <include refid="Base_AP_Column_List"/>
+        FROM `article_publications` AS ap where ap.`id` =  #{id}
+    </select>
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="DetailResultMap" type="com.chqiuu.publisher.article.dto.ArticlePublicationsDetailDTO">
+            <result property="id" column="id" />
+            <result property="articleId" column="article_id" />
+            <result property="platformId" column="platform_id" />
+            <result property="userPlatformAccountId" column="user_platform_account_id" />
+            <result property="status" column="status" />
+            <result property="platformArticleId" column="platform_article_id" />
+            <result property="platformArticleUrl" column="platform_article_url" />
+            <result property="errorMessage" column="error_message" />
+            <result property="lastAttemptAt" column="last_attempt_at" />
+            <result property="publishedAt" column="published_at" />
+            <result property="lastSuccessSyncAt" column="last_success_sync_at" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+    </resultMap>
+    <!--根据唯一ID获取详细信息-->
+    <select id="getDetailById" resultMap="DetailResultMap">
+        SELECT
+        <include refid="Base_AP_Column_List"/>
+        FROM `article_publications` AS ap where ap.`id` =  #{id}
+    </select>
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="ListResultMap" type="com.chqiuu.publisher.article.dto.ArticlePublicationsListDTO">
+            <result property="id" column="id" />
+            <result property="articleId" column="article_id" />
+            <result property="platformId" column="platform_id" />
+            <result property="userPlatformAccountId" column="user_platform_account_id" />
+            <result property="status" column="status" />
+            <result property="platformArticleId" column="platform_article_id" />
+            <result property="platformArticleUrl" column="platform_article_url" />
+            <result property="errorMessage" column="error_message" />
+            <result property="lastAttemptAt" column="last_attempt_at" />
+            <result property="publishedAt" column="published_at" />
+            <result property="lastSuccessSyncAt" column="last_success_sync_at" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+    </resultMap>
+    <!--文章在各平台的发布记录列表查询-->
+    <select id="getList" parameterType="com.chqiuu.publisher.article.query.ArticlePublicationsListQuery" resultMap="ListResultMap">
+        SELECT
+        <include refid="Base_AP_Column_List"/>
+        FROM `article_publications` AS ap WHERE 1 = 1
+        <if test="query.articleId != null ">
+            AND ap.`article_id` = #{query.articleId}
+        </if>
+        <if test="query.platformId != null ">
+            AND ap.`platform_id` = #{query.platformId}
+        </if>
+        <if test="query.userPlatformAccountId != null ">
+            AND ap.`user_platform_account_id` = #{query.userPlatformAccountId}
+        </if>
+        <if test="query.status != null and query.status != ''">
+            AND ap.`status` LIKE CONCAT(#{query.status},'%')
+        </if>
+        <if test="query.platformArticleId != null and query.platformArticleId != ''">
+            AND ap.`platform_article_id` LIKE CONCAT(#{query.platformArticleId},'%')
+        </if>
+        <if test="query.platformArticleUrl != null and query.platformArticleUrl != ''">
+            AND ap.`platform_article_url` LIKE CONCAT(#{query.platformArticleUrl},'%')
+        </if>
+        <if test="query.lastAttemptAt != null ">
+            AND ap.`last_attempt_at` = #{query.lastAttemptAt}
+        </if>
+        <if test="query.publishedAt != null ">
+            AND ap.`published_at` = #{query.publishedAt}
+        </if>
+        <if test="query.lastSuccessSyncAt != null ">
+            AND ap.`last_success_sync_at` = #{query.lastSuccessSyncAt}
+        </if>
+        <if test="query.createdAt != null ">
+            AND ap.`created_at` = #{query.createdAt}
+        </if>
+        <if test="query.updatedAt != null ">
+            AND ap.`updated_at` = #{query.updatedAt}
+        </if>
+        
+        <choose>
+            <when test="query.sortParam=='id'">
+                <choose>
+                    <when test="query.sortord=='asc'">
+                        ORDER BY ap.`id` asc
+                    </when>
+                    <otherwise>
+                        ORDER BY ap.`id` desc
+                    </otherwise>
+                </choose>
+            </when>
+        </choose>
+    </select>
+    <!--文章在各平台的发布记录分页查询-->
+    <select id="getPage" parameterType="com.chqiuu.publisher.article.query.ArticlePublicationsPageQuery" resultMap="ListResultMap">
+        SELECT
+        <include refid="Base_AP_Column_List"/>
+        FROM `article_publications` AS ap WHERE 1 = 1
+        <if test="query.articleId != null ">
+            AND ap.`article_id` = #{query.articleId}
+        </if>
+        <if test="query.platformId != null ">
+            AND ap.`platform_id` = #{query.platformId}
+        </if>
+        <if test="query.userPlatformAccountId != null ">
+            AND ap.`user_platform_account_id` = #{query.userPlatformAccountId}
+        </if>
+        <if test="query.status != null and query.status != ''">
+            AND ap.`status` LIKE CONCAT(#{query.status},'%')
+        </if>
+        <if test="query.platformArticleId != null and query.platformArticleId != ''">
+            AND ap.`platform_article_id` LIKE CONCAT(#{query.platformArticleId},'%')
+        </if>
+        <if test="query.platformArticleUrl != null and query.platformArticleUrl != ''">
+            AND ap.`platform_article_url` LIKE CONCAT(#{query.platformArticleUrl},'%')
+        </if>
+        <if test="query.lastAttemptAt != null ">
+            AND ap.`last_attempt_at` = #{query.lastAttemptAt}
+        </if>
+        <if test="query.publishedAt != null ">
+            AND ap.`published_at` = #{query.publishedAt}
+        </if>
+        <if test="query.lastSuccessSyncAt != null ">
+            AND ap.`last_success_sync_at` = #{query.lastSuccessSyncAt}
+        </if>
+        <if test="query.createdAt != null ">
+            AND ap.`created_at` = #{query.createdAt}
+        </if>
+        <if test="query.updatedAt != null ">
+            AND ap.`updated_at` = #{query.updatedAt}
+        </if>
+        
+        <choose>
+            <when test="query.sortParam=='id'">
+                <choose>
+                    <when test="query.sortord=='asc'">
+                        ORDER BY ap.`id` asc
+                    </when>
+                    <otherwise>
+                        ORDER BY ap.`id` desc
+                    </otherwise>
+                </choose>
+            </when>
+        </choose>
+    </select>
+</mapper>

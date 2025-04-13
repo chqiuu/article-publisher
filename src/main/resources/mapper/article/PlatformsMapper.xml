@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chqiuu.publisher.article.mapper.PlatformsMapper" >
+    <!-- 支持的平台信息 表名：`platforms` -->
+    <sql id="Base_Column_List">
+        `id`,`platform_key`,`name`,`type`,`icon_url`,`description`,`created_at`,`updated_at`
+    </sql>
+    <sql id="Base_P_Column_List">
+        p.`id`,p.`platform_key`,p.`name`,p.`type`,p.`icon_url`,p.`description`,p.`created_at`,p.`updated_at`
+    </sql>
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="com.chqiuu.publisher.article.entity.PlatformsEntity">
+        <result property="id" column="id" />
+        <result property="platformKey" column="platform_key" />
+        <result property="name" column="name" />
+        <result property="type" column="type" />
+        <result property="iconUrl" column="icon_url" />
+        <result property="description" column="description" />
+        <result property="createdAt" column="created_at" />
+        <result property="updatedAt" column="updated_at" />
+    </resultMap>
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BriefResultMap" type="com.chqiuu.publisher.article.dto.PlatformsBriefDTO">
+            <result property="id" column="id" />
+            <result property="platformKey" column="platform_key" />
+            <result property="name" column="name" />
+            <result property="type" column="type" />
+            <result property="iconUrl" column="icon_url" />
+            <result property="description" column="description" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+    </resultMap>
+    <!--根据唯一ID获取简要信息-->
+    <select id="getBriefById" resultMap="BriefResultMap">
+        SELECT
+        <include refid="Base_P_Column_List"/>
+        FROM `platforms` AS p where p.`id` =  #{id}
+    </select>
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="DetailResultMap" type="com.chqiuu.publisher.article.dto.PlatformsDetailDTO">
+            <result property="id" column="id" />
+            <result property="platformKey" column="platform_key" />
+            <result property="name" column="name" />
+            <result property="type" column="type" />
+            <result property="iconUrl" column="icon_url" />
+            <result property="description" column="description" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+    </resultMap>
+    <!--根据唯一ID获取详细信息-->
+    <select id="getDetailById" resultMap="DetailResultMap">
+        SELECT
+        <include refid="Base_P_Column_List"/>
+        FROM `platforms` AS p where p.`id` =  #{id}
+    </select>
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="ListResultMap" type="com.chqiuu.publisher.article.dto.PlatformsListDTO">
+            <result property="id" column="id" />
+            <result property="platformKey" column="platform_key" />
+            <result property="name" column="name" />
+            <result property="type" column="type" />
+            <result property="iconUrl" column="icon_url" />
+            <result property="description" column="description" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+    </resultMap>
+    <!--支持的平台信息列表查询-->
+    <select id="getList" parameterType="com.chqiuu.publisher.article.query.PlatformsListQuery" resultMap="ListResultMap">
+        SELECT
+        <include refid="Base_P_Column_List"/>
+        FROM `platforms` AS p WHERE 1 = 1
+        <if test="query.platformKey != null and query.platformKey != ''">
+            AND p.`platform_key` LIKE CONCAT(#{query.platformKey},'%')
+        </if>
+        <if test="query.name != null and query.name != ''">
+            AND p.`name` LIKE CONCAT(#{query.name},'%')
+        </if>
+        <if test="query.type != null and query.type != ''">
+            AND p.`type` LIKE CONCAT(#{query.type},'%')
+        </if>
+        <if test="query.iconUrl != null and query.iconUrl != ''">
+            AND p.`icon_url` LIKE CONCAT(#{query.iconUrl},'%')
+        </if>
+        <if test="query.createdAt != null ">
+            AND p.`created_at` = #{query.createdAt}
+        </if>
+        <if test="query.updatedAt != null ">
+            AND p.`updated_at` = #{query.updatedAt}
+        </if>
+        
+        <choose>
+            <when test="query.sortParam=='id'">
+                <choose>
+                    <when test="query.sortord=='asc'">
+                        ORDER BY p.`id` asc
+                    </when>
+                    <otherwise>
+                        ORDER BY p.`id` desc
+                    </otherwise>
+                </choose>
+            </when>
+        </choose>
+    </select>
+    <!--支持的平台信息分页查询-->
+    <select id="getPage" parameterType="com.chqiuu.publisher.article.query.PlatformsPageQuery" resultMap="ListResultMap">
+        SELECT
+        <include refid="Base_P_Column_List"/>
+        FROM `platforms` AS p WHERE 1 = 1
+        <if test="query.platformKey != null and query.platformKey != ''">
+            AND p.`platform_key` LIKE CONCAT(#{query.platformKey},'%')
+        </if>
+        <if test="query.name != null and query.name != ''">
+            AND p.`name` LIKE CONCAT(#{query.name},'%')
+        </if>
+        <if test="query.type != null and query.type != ''">
+            AND p.`type` LIKE CONCAT(#{query.type},'%')
+        </if>
+        <if test="query.iconUrl != null and query.iconUrl != ''">
+            AND p.`icon_url` LIKE CONCAT(#{query.iconUrl},'%')
+        </if>
+        <if test="query.createdAt != null ">
+            AND p.`created_at` = #{query.createdAt}
+        </if>
+        <if test="query.updatedAt != null ">
+            AND p.`updated_at` = #{query.updatedAt}
+        </if>
+        
+        <choose>
+            <when test="query.sortParam=='id'">
+                <choose>
+                    <when test="query.sortord=='asc'">
+                        ORDER BY p.`id` asc
+                    </when>
+                    <otherwise>
+                        ORDER BY p.`id` desc
+                    </otherwise>
+                </choose>
+            </when>
+        </choose>
+    </select>
+</mapper>

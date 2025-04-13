@@ -1,0 +1,85 @@
+package com.chqiuu.publisher.article.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+
+/**
+ * 文章在各平台的发布记录
+ *
+ * @author chqiuu
+ * @date 2025年4月12日
+ */
+@Data
+@Schema(description = "文章在各平台的发布记录实体类")
+@EqualsAndHashCode(callSuper = true)
+@TableName("article_publications")
+public class ArticlePublicationsEntity extends Model<ArticlePublicationsEntity> {
+
+    private static final long serialVersionUID = 1L;
+
+    /** 发布记录ID `id` bigint(20) unsigned NOT NULL auto_increment COMMENT 发布记录ID */
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @Schema(description = "发布记录ID")
+    private Long id;
+    /** 文章ID `article_id` bigint(20) unsigned NOT NULL  COMMENT 文章ID */
+    @Schema(description = "文章ID")
+
+    private Long articleId;
+    /** 目标发布平台ID `platform_id` int(10) unsigned NOT NULL  COMMENT 目标发布平台ID */
+    @Schema(description = "目标发布平台ID")
+
+    private Integer platformId;
+    /** 用于发布的平台账号ID `user_platform_account_id` bigint(20) unsigned NOT NULL  COMMENT 用于发布的平台账号ID */
+    @Schema(description = "用于发布的平台账号ID")
+
+    private Long userPlatformAccountId;
+    /** 发布状态 `status` enum('pending','publishing','published','failed','updating','update_failed','deleted') NOT NULL DEFAULT pending  COMMENT 发布状态 */
+    @Schema(description = "发布状态")
+
+    private String status;
+    /** 文章在目标平台的唯一ID (如果发布成功) `platform_article_id` varchar(100)  COMMENT 文章在目标平台的唯一ID (如果发布成功) */
+    @Schema(description = "文章在目标平台的唯一ID (如果发布成功)")
+
+    private String platformArticleId;
+    /** 文章在目标平台的访问URL (如果发布成功) `platform_article_url` varchar(512)  COMMENT 文章在目标平台的访问URL (如果发布成功) */
+    @Schema(description = "文章在目标平台的访问URL (如果发布成功)")
+
+    private String platformArticleUrl;
+    /** 发布/更新失败时的错误信息 `error_message` text  COMMENT 发布/更新失败时的错误信息 */
+    @Schema(description = "发布/更新失败时的错误信息")
+
+    private String errorMessage;
+    /** 上次尝试发布/更新的时间 `last_attempt_at` timestamp  COMMENT 上次尝试发布/更新的时间 */
+    @Schema(description = "上次尝试发布/更新的时间")
+
+    private LocalDateTime lastAttemptAt;
+    /** 成功发布到此平台的时间 `published_at` timestamp  COMMENT 成功发布到此平台的时间 */
+    @Schema(description = "成功发布到此平台的时间")
+
+    private LocalDateTime publishedAt;
+    /** 最后一次成功同步/发布/更新到此平台的时间 `last_success_sync_at` timestamp  COMMENT 最后一次成功同步/发布/更新到此平台的时间 */
+    @Schema(description = "最后一次成功同步/发布/更新到此平台的时间")
+
+    private LocalDateTime lastSuccessSyncAt;
+    /** 记录创建时间 `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP  COMMENT 记录创建时间 */
+    @Schema(description = "记录创建时间")
+
+    private LocalDateTime createdAt;
+    /** 记录更新时间 `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 记录更新时间 */
+    @Schema(description = "记录更新时间")
+
+    private LocalDateTime updatedAt;
+}

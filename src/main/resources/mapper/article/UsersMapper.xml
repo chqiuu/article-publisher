@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chqiuu.publisher.article.mapper.UsersMapper" >
+    <!-- 用户信息 表名：`users` -->
+    <sql id="Base_Column_List">
+        `id`,`username`,`password_hash`,`email`,`nickname`,`created_at`,`updated_at`
+    </sql>
+    <sql id="Base_U_Column_List">
+        u.`id`,u.`username`,u.`password_hash`,u.`email`,u.`nickname`,u.`created_at`,u.`updated_at`
+    </sql>
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="com.chqiuu.publisher.article.entity.UsersEntity">
+        <result property="id" column="id" />
+        <result property="username" column="username" />
+        <result property="passwordHash" column="password_hash" />
+        <result property="email" column="email" />
+        <result property="nickname" column="nickname" />
+        <result property="createdAt" column="created_at" />
+        <result property="updatedAt" column="updated_at" />
+    </resultMap>
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BriefResultMap" type="com.chqiuu.publisher.article.dto.UsersBriefDTO">
+            <result property="id" column="id" />
+            <result property="username" column="username" />
+            <result property="passwordHash" column="password_hash" />
+            <result property="email" column="email" />
+            <result property="nickname" column="nickname" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+    </resultMap>
+    <!--根据唯一ID获取简要信息-->
+    <select id="getBriefById" resultMap="BriefResultMap">
+        SELECT
+        <include refid="Base_U_Column_List"/>
+        FROM `users` AS u where u.`id` =  #{id}
+    </select>
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="DetailResultMap" type="com.chqiuu.publisher.article.dto.UsersDetailDTO">
+            <result property="id" column="id" />
+            <result property="username" column="username" />
+            <result property="passwordHash" column="password_hash" />
+            <result property="email" column="email" />
+            <result property="nickname" column="nickname" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+    </resultMap>
+    <!--根据唯一ID获取详细信息-->
+    <select id="getDetailById" resultMap="DetailResultMap">
+        SELECT
+        <include refid="Base_U_Column_List"/>
+        FROM `users` AS u where u.`id` =  #{id}
+    </select>
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="ListResultMap" type="com.chqiuu.publisher.article.dto.UsersListDTO">
+            <result property="id" column="id" />
+            <result property="username" column="username" />
+            <result property="passwordHash" column="password_hash" />
+            <result property="email" column="email" />
+            <result property="nickname" column="nickname" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+    </resultMap>
+    <!--用户信息列表查询-->
+    <select id="getList" parameterType="com.chqiuu.publisher.article.query.UsersListQuery" resultMap="ListResultMap">
+        SELECT
+        <include refid="Base_U_Column_List"/>
+        FROM `users` AS u WHERE 1 = 1
+        <if test="query.username != null and query.username != ''">
+            AND u.`username` LIKE CONCAT(#{query.username},'%')
+        </if>
+        <if test="query.passwordHash != null and query.passwordHash != ''">
+            AND u.`password_hash` LIKE CONCAT(#{query.passwordHash},'%')
+        </if>
+        <if test="query.email != null and query.email != ''">
+            AND u.`email` LIKE CONCAT(#{query.email},'%')
+        </if>
+        <if test="query.nickname != null and query.nickname != ''">
+            AND u.`nickname` LIKE CONCAT(#{query.nickname},'%')
+        </if>
+        <if test="query.createdAt != null ">
+            AND u.`created_at` = #{query.createdAt}
+        </if>
+        <if test="query.updatedAt != null ">
+            AND u.`updated_at` = #{query.updatedAt}
+        </if>
+        
+        <choose>
+            <when test="query.sortParam=='id'">
+                <choose>
+                    <when test="query.sortord=='asc'">
+                        ORDER BY u.`id` asc
+                    </when>
+                    <otherwise>
+                        ORDER BY u.`id` desc
+                    </otherwise>
+                </choose>
+            </when>
+        </choose>
+    </select>
+    <!--用户信息分页查询-->
+    <select id="getPage" parameterType="com.chqiuu.publisher.article.query.UsersPageQuery" resultMap="ListResultMap">
+        SELECT
+        <include refid="Base_U_Column_List"/>
+        FROM `users` AS u WHERE 1 = 1
+        <if test="query.username != null and query.username != ''">
+            AND u.`username` LIKE CONCAT(#{query.username},'%')
+        </if>
+        <if test="query.passwordHash != null and query.passwordHash != ''">
+            AND u.`password_hash` LIKE CONCAT(#{query.passwordHash},'%')
+        </if>
+        <if test="query.email != null and query.email != ''">
+            AND u.`email` LIKE CONCAT(#{query.email},'%')
+        </if>
+        <if test="query.nickname != null and query.nickname != ''">
+            AND u.`nickname` LIKE CONCAT(#{query.nickname},'%')
+        </if>
+        <if test="query.createdAt != null ">
+            AND u.`created_at` = #{query.createdAt}
+        </if>
+        <if test="query.updatedAt != null ">
+            AND u.`updated_at` = #{query.updatedAt}
+        </if>
+        
+        <choose>
+            <when test="query.sortParam=='id'">
+                <choose>
+                    <when test="query.sortord=='asc'">
+                        ORDER BY u.`id` asc
+                    </when>
+                    <otherwise>
+                        ORDER BY u.`id` desc
+                    </otherwise>
+                </choose>
+            </when>
+        </choose>
+    </select>
+</mapper>

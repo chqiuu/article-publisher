@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chqiuu.publisher.article.mapper.UserPlatformAccountsMapper" >
+    <!-- 用户绑定的平台账号信息 表名：`user_platform_accounts` -->
+    <sql id="Base_Column_List">
+        `id`,`user_id`,`platform_id`,`account_nickname`,`platform_username`,`credentials`,`status`,`last_verified_at`,`created_at`,`updated_at`
+    </sql>
+    <sql id="Base_UPA_Column_List">
+        upa.`id`,upa.`user_id`,upa.`platform_id`,upa.`account_nickname`,upa.`platform_username`,upa.`credentials`,upa.`status`,upa.`last_verified_at`,upa.`created_at`,upa.`updated_at`
+    </sql>
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="com.chqiuu.publisher.article.entity.UserPlatformAccountsEntity">
+        <result property="id" column="id" />
+        <result property="userId" column="user_id" />
+        <result property="platformId" column="platform_id" />
+        <result property="accountNickname" column="account_nickname" />
+        <result property="platformUsername" column="platform_username" />
+        <result property="credentials" column="credentials" />
+        <result property="status" column="status" />
+        <result property="lastVerifiedAt" column="last_verified_at" />
+        <result property="createdAt" column="created_at" />
+        <result property="updatedAt" column="updated_at" />
+    </resultMap>
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BriefResultMap" type="com.chqiuu.publisher.article.dto.UserPlatformAccountsBriefDTO">
+            <result property="id" column="id" />
+            <result property="userId" column="user_id" />
+            <result property="platformId" column="platform_id" />
+            <result property="accountNickname" column="account_nickname" />
+            <result property="platformUsername" column="platform_username" />
+            <result property="credentials" column="credentials" />
+            <result property="status" column="status" />
+            <result property="lastVerifiedAt" column="last_verified_at" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+    </resultMap>
+    <!--根据唯一ID获取简要信息-->
+    <select id="getBriefById" resultMap="BriefResultMap">
+        SELECT
+        <include refid="Base_UPA_Column_List"/>
+        FROM `user_platform_accounts` AS upa where upa.`id` =  #{id}
+    </select>
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="DetailResultMap" type="com.chqiuu.publisher.article.dto.UserPlatformAccountsDetailDTO">
+            <result property="id" column="id" />
+            <result property="userId" column="user_id" />
+            <result property="platformId" column="platform_id" />
+            <result property="accountNickname" column="account_nickname" />
+            <result property="platformUsername" column="platform_username" />
+            <result property="credentials" column="credentials" />
+            <result property="status" column="status" />
+            <result property="lastVerifiedAt" column="last_verified_at" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+    </resultMap>
+    <!--根据唯一ID获取详细信息-->
+    <select id="getDetailById" resultMap="DetailResultMap">
+        SELECT
+        <include refid="Base_UPA_Column_List"/>
+        FROM `user_platform_accounts` AS upa where upa.`id` =  #{id}
+    </select>
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="ListResultMap" type="com.chqiuu.publisher.article.dto.UserPlatformAccountsListDTO">
+            <result property="id" column="id" />
+            <result property="userId" column="user_id" />
+            <result property="platformId" column="platform_id" />
+            <result property="accountNickname" column="account_nickname" />
+            <result property="platformUsername" column="platform_username" />
+            <result property="credentials" column="credentials" />
+            <result property="status" column="status" />
+            <result property="lastVerifiedAt" column="last_verified_at" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+    </resultMap>
+    <!--用户绑定的平台账号信息列表查询-->
+    <select id="getList" parameterType="com.chqiuu.publisher.article.query.UserPlatformAccountsListQuery" resultMap="ListResultMap">
+        SELECT
+        <include refid="Base_UPA_Column_List"/>
+        FROM `user_platform_accounts` AS upa WHERE 1 = 1
+        <if test="query.userId != null ">
+            AND upa.`user_id` = #{query.userId}
+        </if>
+        <if test="query.platformId != null ">
+            AND upa.`platform_id` = #{query.platformId}
+        </if>
+        <if test="query.accountNickname != null and query.accountNickname != ''">
+            AND upa.`account_nickname` LIKE CONCAT(#{query.accountNickname},'%')
+        </if>
+        <if test="query.platformUsername != null and query.platformUsername != ''">
+            AND upa.`platform_username` LIKE CONCAT(#{query.platformUsername},'%')
+        </if>
+        <if test="query.status != null and query.status != ''">
+            AND upa.`status` LIKE CONCAT(#{query.status},'%')
+        </if>
+        <if test="query.lastVerifiedAt != null ">
+            AND upa.`last_verified_at` = #{query.lastVerifiedAt}
+        </if>
+        <if test="query.createdAt != null ">
+            AND upa.`created_at` = #{query.createdAt}
+        </if>
+        <if test="query.updatedAt != null ">
+            AND upa.`updated_at` = #{query.updatedAt}
+        </if>
+        
+        <choose>
+            <when test="query.sortParam=='id'">
+                <choose>
+                    <when test="query.sortord=='asc'">
+                        ORDER BY upa.`id` asc
+                    </when>
+                    <otherwise>
+                        ORDER BY upa.`id` desc
+                    </otherwise>
+                </choose>
+            </when>
+        </choose>
+    </select>
+    <!--用户绑定的平台账号信息分页查询-->
+    <select id="getPage" parameterType="com.chqiuu.publisher.article.query.UserPlatformAccountsPageQuery" resultMap="ListResultMap">
+        SELECT
+        <include refid="Base_UPA_Column_List"/>
+        FROM `user_platform_accounts` AS upa WHERE 1 = 1
+        <if test="query.userId != null ">
+            AND upa.`user_id` = #{query.userId}
+        </if>
+        <if test="query.platformId != null ">
+            AND upa.`platform_id` = #{query.platformId}
+        </if>
+        <if test="query.accountNickname != null and query.accountNickname != ''">
+            AND upa.`account_nickname` LIKE CONCAT(#{query.accountNickname},'%')
+        </if>
+        <if test="query.platformUsername != null and query.platformUsername != ''">
+            AND upa.`platform_username` LIKE CONCAT(#{query.platformUsername},'%')
+        </if>
+        <if test="query.status != null and query.status != ''">
+            AND upa.`status` LIKE CONCAT(#{query.status},'%')
+        </if>
+        <if test="query.lastVerifiedAt != null ">
+            AND upa.`last_verified_at` = #{query.lastVerifiedAt}
+        </if>
+        <if test="query.createdAt != null ">
+            AND upa.`created_at` = #{query.createdAt}
+        </if>
+        <if test="query.updatedAt != null ">
+            AND upa.`updated_at` = #{query.updatedAt}
+        </if>
+        
+        <choose>
+            <when test="query.sortParam=='id'">
+                <choose>
+                    <when test="query.sortord=='asc'">
+                        ORDER BY upa.`id` asc
+                    </when>
+                    <otherwise>
+                        ORDER BY upa.`id` desc
+                    </otherwise>
+                </choose>
+            </when>
+        </choose>
+    </select>
+</mapper>

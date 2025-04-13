@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chqiuu.publisher.article.mapper.ArticlesMapper" >
+    <!-- 文章信息 表名：`articles` -->
+    <sql id="Base_Column_List">
+        `id`,`user_id`,`title`,`slug`,`content_md`,`cover_image_url`,`tags`,`status`,`is_original`,`source_platform_id`,`source_url`,`created_at`,`updated_at`,`published_at`
+    </sql>
+    <sql id="Base_A_Column_List">
+        a.`id`,a.`user_id`,a.`title`,a.`slug`,a.`content_md`,a.`cover_image_url`,a.`tags`,a.`status`,a.`is_original`,a.`source_platform_id`,a.`source_url`,a.`created_at`,a.`updated_at`,a.`published_at`
+    </sql>
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="com.chqiuu.publisher.article.entity.ArticlesEntity">
+        <result property="id" column="id" />
+        <result property="userId" column="user_id" />
+        <result property="title" column="title" />
+        <result property="slug" column="slug" />
+        <result property="contentMd" column="content_md" />
+        <result property="coverImageUrl" column="cover_image_url" />
+        <result property="tags" column="tags" />
+        <result property="status" column="status" />
+        <result property="isOriginal" column="is_original" />
+        <result property="sourcePlatformId" column="source_platform_id" />
+        <result property="sourceUrl" column="source_url" />
+        <result property="createdAt" column="created_at" />
+        <result property="updatedAt" column="updated_at" />
+        <result property="publishedAt" column="published_at" />
+    </resultMap>
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BriefResultMap" type="com.chqiuu.publisher.article.dto.ArticlesBriefDTO">
+            <result property="id" column="id" />
+            <result property="userId" column="user_id" />
+            <result property="title" column="title" />
+            <result property="slug" column="slug" />
+            <result property="contentMd" column="content_md" />
+            <result property="coverImageUrl" column="cover_image_url" />
+            <result property="tags" column="tags" />
+            <result property="status" column="status" />
+            <result property="isOriginal" column="is_original" />
+            <result property="sourcePlatformId" column="source_platform_id" />
+            <result property="sourceUrl" column="source_url" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+            <result property="publishedAt" column="published_at" />
+    </resultMap>
+    <!--根据唯一ID获取简要信息-->
+    <select id="getBriefById" resultMap="BriefResultMap">
+        SELECT
+        <include refid="Base_A_Column_List"/>
+        FROM `articles` AS a where a.`id` =  #{id}
+    </select>
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="DetailResultMap" type="com.chqiuu.publisher.article.dto.ArticlesDetailDTO">
+            <result property="id" column="id" />
+            <result property="userId" column="user_id" />
+            <result property="title" column="title" />
+            <result property="slug" column="slug" />
+            <result property="contentMd" column="content_md" />
+            <result property="coverImageUrl" column="cover_image_url" />
+            <result property="tags" column="tags" />
+            <result property="status" column="status" />
+            <result property="isOriginal" column="is_original" />
+            <result property="sourcePlatformId" column="source_platform_id" />
+            <result property="sourceUrl" column="source_url" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+            <result property="publishedAt" column="published_at" />
+    </resultMap>
+    <!--根据唯一ID获取详细信息-->
+    <select id="getDetailById" resultMap="DetailResultMap">
+        SELECT
+        <include refid="Base_A_Column_List"/>
+        FROM `articles` AS a where a.`id` =  #{id}
+    </select>
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="ListResultMap" type="com.chqiuu.publisher.article.dto.ArticlesListDTO">
+            <result property="id" column="id" />
+            <result property="userId" column="user_id" />
+            <result property="title" column="title" />
+            <result property="slug" column="slug" />
+            <result property="contentMd" column="content_md" />
+            <result property="coverImageUrl" column="cover_image_url" />
+            <result property="tags" column="tags" />
+            <result property="status" column="status" />
+            <result property="isOriginal" column="is_original" />
+            <result property="sourcePlatformId" column="source_platform_id" />
+            <result property="sourceUrl" column="source_url" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+            <result property="publishedAt" column="published_at" />
+    </resultMap>
+    <!--文章信息列表查询-->
+    <select id="getList" parameterType="com.chqiuu.publisher.article.query.ArticlesListQuery" resultMap="ListResultMap">
+        SELECT
+        <include refid="Base_A_Column_List"/>
+        FROM `articles` AS a WHERE 1 = 1
+        <if test="query.userId != null ">
+            AND a.`user_id` = #{query.userId}
+        </if>
+        <if test="query.title != null and query.title != ''">
+            AND a.`title` LIKE CONCAT(#{query.title},'%')
+        </if>
+        <if test="query.slug != null and query.slug != ''">
+            AND a.`slug` LIKE CONCAT(#{query.slug},'%')
+        </if>
+        <if test="query.coverImageUrl != null and query.coverImageUrl != ''">
+            AND a.`cover_image_url` LIKE CONCAT(#{query.coverImageUrl},'%')
+        </if>
+        <if test="query.tags != null and query.tags != ''">
+            AND a.`tags` LIKE CONCAT(#{query.tags},'%')
+        </if>
+        <if test="query.status != null and query.status != ''">
+            AND a.`status` LIKE CONCAT(#{query.status},'%')
+        </if>
+        <if test="query.isOriginal != null ">
+            AND a.`is_original` = #{query.isOriginal}
+        </if>
+        <if test="query.sourcePlatformId != null ">
+            AND a.`source_platform_id` = #{query.sourcePlatformId}
+        </if>
+        <if test="query.sourceUrl != null and query.sourceUrl != ''">
+            AND a.`source_url` LIKE CONCAT(#{query.sourceUrl},'%')
+        </if>
+        <if test="query.createdAt != null ">
+            AND a.`created_at` = #{query.createdAt}
+        </if>
+        <if test="query.updatedAt != null ">
+            AND a.`updated_at` = #{query.updatedAt}
+        </if>
+        <if test="query.publishedAt != null ">
+            AND a.`published_at` = #{query.publishedAt}
+        </if>
+        
+        <choose>
+            <when test="query.sortParam=='id'">
+                <choose>
+                    <when test="query.sortord=='asc'">
+                        ORDER BY a.`id` asc
+                    </when>
+                    <otherwise>
+                        ORDER BY a.`id` desc
+                    </otherwise>
+                </choose>
+            </when>
+        </choose>
+    </select>
+    <!--文章信息分页查询-->
+    <select id="getPage" parameterType="com.chqiuu.publisher.article.query.ArticlesPageQuery" resultMap="ListResultMap">
+        SELECT
+        <include refid="Base_A_Column_List"/>
+        FROM `articles` AS a WHERE 1 = 1
+        <if test="query.userId != null ">
+            AND a.`user_id` = #{query.userId}
+        </if>
+        <if test="query.title != null and query.title != ''">
+            AND a.`title` LIKE CONCAT(#{query.title},'%')
+        </if>
+        <if test="query.slug != null and query.slug != ''">
+            AND a.`slug` LIKE CONCAT(#{query.slug},'%')
+        </if>
+        <if test="query.coverImageUrl != null and query.coverImageUrl != ''">
+            AND a.`cover_image_url` LIKE CONCAT(#{query.coverImageUrl},'%')
+        </if>
+        <if test="query.tags != null and query.tags != ''">
+            AND a.`tags` LIKE CONCAT(#{query.tags},'%')
+        </if>
+        <if test="query.status != null and query.status != ''">
+            AND a.`status` LIKE CONCAT(#{query.status},'%')
+        </if>
+        <if test="query.isOriginal != null ">
+            AND a.`is_original` = #{query.isOriginal}
+        </if>
+        <if test="query.sourcePlatformId != null ">
+            AND a.`source_platform_id` = #{query.sourcePlatformId}
+        </if>
+        <if test="query.sourceUrl != null and query.sourceUrl != ''">
+            AND a.`source_url` LIKE CONCAT(#{query.sourceUrl},'%')
+        </if>
+        <if test="query.createdAt != null ">
+            AND a.`created_at` = #{query.createdAt}
+        </if>
+        <if test="query.updatedAt != null ">
+            AND a.`updated_at` = #{query.updatedAt}
+        </if>
+        <if test="query.publishedAt != null ">
+            AND a.`published_at` = #{query.publishedAt}
+        </if>
+        
+        <choose>
+            <when test="query.sortParam=='id'">
+                <choose>
+                    <when test="query.sortord=='asc'">
+                        ORDER BY a.`id` asc
+                    </when>
+                    <otherwise>
+                        ORDER BY a.`id` desc
+                    </otherwise>
+                </choose>
+            </when>
+        </choose>
+    </select>
+</mapper>
