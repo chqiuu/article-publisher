@@ -1,0 +1,149 @@
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">添加用户绑定的平台账号信息</div>
+                <div class="layui-card-body" pad15>
+                    <form class="layui-form layui-form-pane" action="">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">系统用户ID</label>
+                                    <div class="layui-input-inline" style="width: 150px;">
+                                        <input id="input-userId" name="userId" type="number" lay-verify="number" class="layui-input">
+                                    </div>
+                                    <div class="layui-input-inline layui-input-company">单位</div>
+                                    <div class="layui-form-mid layui-word-aux">提示：---</div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">平台ID</label>
+                                    <div class="layui-input-inline" style="width: 80px;">
+                                        <input id="input-platformId" name="platformId" type="number" lay-verify="number" class="layui-input">
+                                    </div>
+                                    <div class="layui-input-inline layui-input-company">单位</div>
+                                    <div class="layui-form-mid layui-word-aux">提示：---</div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">用户为该账号设置的昵称 (方便区分)</label>
+                                        <div class="layui-input-block">
+                                            <input id="input-accountNickname" type="text" name="accountNickname" placeholder="请输入用户为该账号设置的昵称 (方便区分)" value="" class="layui-input">
+                                        </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">在第三方平台的用户名/ID (可选, 根据平台)</label>
+                                        <div class="layui-input-block">
+                                            <input id="input-platformUsername" type="text" name="platformUsername" placeholder="请输入在第三方平台的用户名/ID (可选, 根据平台)" value="" class="layui-input">
+                                        </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">认证凭证 (JSON格式存储，如 cookies, tokens, app_id/secret等，需加密处理)</label>
+                                        <div class="layui-input-block">
+                                            <textarea id="input-credentials" name="credentials" class="layui-textarea" placeholder="请输入认证凭证 (JSON格式存储，如 cookies, tokens, app_id/secret等，需加密处理)"></textarea>
+                                        </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">账号状态</label>
+                                        <div class="layui-input-block">
+                                            <input id="input-status" type="text" name="status" placeholder="请输入账号状态" value="" class="layui-input">
+                                        </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">上次验证成功时间</label>
+                                    <div class="layui-input-inline" style="width: 150px;">
+                                        <input id="input-lastVerifiedAt" type="text" name="lastVerifiedAt" autocomplete="off" placeholder="请选择上次验证成功时间" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">提示：---</div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">创建时间</label>
+                                    <div class="layui-input-inline" style="width: 150px;">
+                                        <input id="input-createdAt" type="text" name="createdAt" autocomplete="off" placeholder="请选择创建时间" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">提示：---</div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">更新时间</label>
+                                    <div class="layui-input-inline" style="width: 150px;">
+                                        <input id="input-updatedAt" type="text" name="updatedAt" autocomplete="off" placeholder="请选择更新时间" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">提示：---</div>
+                            </div>
+                        <div class="layui-form-item layui-hide">
+                            <div class="layui-input-block">
+                                <button id="addBtn" class="layui-btn layui-btn-normal" lay-submit
+                                        lay-filter="addBtn">
+                                    保存
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['jquery', 'form', 'layer', 'table', 'laydate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            layer = layui.layer,laydate = layui.laydate,
+            table = layui.table;
+
+        /**
+         * 初始化表单，要加上，不然刷新部分组件可能会不加载
+         */
+        form.render();
+
+        laydate.render({
+            elem: '#input-lastVerifiedAt'
+        });
+        laydate.render({
+            elem: '#input-createdAt'
+        });
+        laydate.render({
+            elem: '#input-updatedAt'
+        });
+
+        // 保存
+        form.on('submit(addBtn)', function (data) {
+            var dataContent = {
+                userId: $("#input-userId").val(),
+                platformId: $("#input-platformId").val(),
+                accountNickname: $("#input-accountNickname").val(),
+                platformUsername: $("#input-platformUsername").val(),
+                credentials: $("#input-credentials").val(),
+                status: $("#input-status").val(),
+                lastVerifiedAt: $("#input-lastVerifiedAt").val(),
+                createdAt: $("#input-createdAt").val(),
+                updatedAt: $("#input-updatedAt").val(),
+            }
+            add(dataContent)
+            return false;
+        });
+
+        function add(dataContent) {
+            console.info("add", dataContent)
+            $.ajax({
+                url: '../article/userPlatformAccounts/add',
+                async: false,
+                type: "post",
+                dataType: "json",
+                headers: {'Content-Type': 'application/json;charset=utf-8'},
+                data: JSON.stringify(dataContent),
+                success: function (res) {
+                    console.log("提交信息", res)
+                    if (res.code === 1) {
+                        layer.msg("保存成功", {time: 2000}, function () {
+                            const index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.layer.close(index);
+                        });
+                    } else {
+                        layer.msg('提交失败！【' + res.message + '】');
+                    }
+                },
+                error: function (e) {
+                    layer.msg('提交失败！【' + e + '】');
+                }
+            });
+        }
+    });
+</script>
