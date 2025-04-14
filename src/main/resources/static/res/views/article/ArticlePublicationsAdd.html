@@ -1,3 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>添加文章在各平台的发布记录</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="../../layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+</head>
+<body>
+
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
@@ -5,89 +18,89 @@
                 <div class="layui-card-header">添加文章在各平台的发布记录</div>
                 <div class="layui-card-body" pad15>
                     <form class="layui-form layui-form-pane" action="">
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">文章ID</label>
-                                    <div class="layui-input-inline" style="width: 150px;">
-                                        <input id="input-articleId" name="articleId" type="number" lay-verify="number" class="layui-input">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">文章ID</label>
+                                <div class="layui-input-inline" style="width: 150px;">
+                                    <input id="input-articleId" name="articleId" type="number" lay-verify="number" class="layui-input">
+                                </div>
+                                <div class="layui-input-inline layui-input-company">单位</div>
+                                <div class="layui-form-mid layui-word-aux">提示：---</div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">目标发布平台ID</label>
+                                <div class="layui-input-inline" style="width: 80px;">
+                                    <input id="input-platformId" name="platformId" type="number" lay-verify="number" class="layui-input">
+                                </div>
+                                <div class="layui-input-inline layui-input-company">单位</div>
+                                <div class="layui-form-mid layui-word-aux">提示：---</div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">用于发布的平台账号ID</label>
+                                <div class="layui-input-inline" style="width: 150px;">
+                                    <input id="input-userPlatformAccountId" name="userPlatformAccountId" type="number" lay-verify="number" class="layui-input">
+                                </div>
+                                <div class="layui-input-inline layui-input-company">单位</div>
+                                <div class="layui-form-mid layui-word-aux">提示：---</div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">发布状态</label>
+                                    <div class="layui-input-block">
+                                        <input id="input-status" type="text" name="status" placeholder="请输入发布状态" value="" class="layui-input">
                                     </div>
-                                    <div class="layui-input-inline layui-input-company">单位</div>
-                                    <div class="layui-form-mid layui-word-aux">提示：---</div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">目标发布平台ID</label>
-                                    <div class="layui-input-inline" style="width: 80px;">
-                                        <input id="input-platformId" name="platformId" type="number" lay-verify="number" class="layui-input">
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">文章在目标平台的唯一ID (如果发布成功)</label>
+                                    <div class="layui-input-block">
+                                        <input id="input-platformArticleId" type="text" name="platformArticleId" placeholder="请输入文章在目标平台的唯一ID (如果发布成功)" value="" class="layui-input">
                                     </div>
-                                    <div class="layui-input-inline layui-input-company">单位</div>
-                                    <div class="layui-form-mid layui-word-aux">提示：---</div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">用于发布的平台账号ID</label>
-                                    <div class="layui-input-inline" style="width: 150px;">
-                                        <input id="input-userPlatformAccountId" name="userPlatformAccountId" type="number" lay-verify="number" class="layui-input">
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">文章在目标平台的访问URL (如果发布成功)</label>
+                                    <div class="layui-input-block">
+                                        <input id="input-platformArticleUrl" type="text" name="platformArticleUrl" placeholder="请输入文章在目标平台的访问URL (如果发布成功)" value="" class="layui-input">
                                     </div>
-                                    <div class="layui-input-inline layui-input-company">单位</div>
-                                    <div class="layui-form-mid layui-word-aux">提示：---</div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">发布状态</label>
-                                        <div class="layui-input-block">
-                                            <input id="input-status" type="text" name="status" placeholder="请输入发布状态" value="" class="layui-input">
-                                        </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">文章在目标平台的唯一ID (如果发布成功)</label>
-                                        <div class="layui-input-block">
-                                            <input id="input-platformArticleId" type="text" name="platformArticleId" placeholder="请输入文章在目标平台的唯一ID (如果发布成功)" value="" class="layui-input">
-                                        </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">文章在目标平台的访问URL (如果发布成功)</label>
-                                        <div class="layui-input-block">
-                                            <input id="input-platformArticleUrl" type="text" name="platformArticleUrl" placeholder="请输入文章在目标平台的访问URL (如果发布成功)" value="" class="layui-input">
-                                        </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">发布/更新失败时的错误信息</label>
-                                        <div class="layui-input-block">
-                                            <textarea id="input-errorMessage" name="errorMessage" class="layui-textarea" placeholder="请输入发布/更新失败时的错误信息"></textarea>
-                                        </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">上次尝试发布/更新的时间</label>
-                                    <div class="layui-input-inline" style="width: 150px;">
-                                        <input id="input-lastAttemptAt" type="text" name="lastAttemptAt" autocomplete="off" placeholder="请选择上次尝试发布/更新的时间" class="layui-input">
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">发布/更新失败时的错误信息</label>
+                                    <div class="layui-input-block">
+                                        <textarea id="input-errorMessage" name="errorMessage" class="layui-textarea" placeholder="请输入发布/更新失败时的错误信息"></textarea>
                                     </div>
-                                    <div class="layui-form-mid layui-word-aux">提示：---</div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">成功发布到此平台的时间</label>
-                                    <div class="layui-input-inline" style="width: 150px;">
-                                        <input id="input-publishedAt" type="text" name="publishedAt" autocomplete="off" placeholder="请选择成功发布到此平台的时间" class="layui-input">
-                                    </div>
-                                    <div class="layui-form-mid layui-word-aux">提示：---</div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">最后一次成功同步/发布/更新到此平台的时间</label>
-                                    <div class="layui-input-inline" style="width: 150px;">
-                                        <input id="input-lastSuccessSyncAt" type="text" name="lastSuccessSyncAt" autocomplete="off" placeholder="请选择最后一次成功同步/发布/更新到此平台的时间" class="layui-input">
-                                    </div>
-                                    <div class="layui-form-mid layui-word-aux">提示：---</div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">记录创建时间</label>
-                                    <div class="layui-input-inline" style="width: 150px;">
-                                        <input id="input-createdAt" type="text" name="createdAt" autocomplete="off" placeholder="请选择记录创建时间" class="layui-input">
-                                    </div>
-                                    <div class="layui-form-mid layui-word-aux">提示：---</div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">记录更新时间</label>
-                                    <div class="layui-input-inline" style="width: 150px;">
-                                        <input id="input-updatedAt" type="text" name="updatedAt" autocomplete="off" placeholder="请选择记录更新时间" class="layui-input">
-                                    </div>
-                                    <div class="layui-form-mid layui-word-aux">提示：---</div>
-                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">上次尝试发布/更新的时间</label>
+                                <div class="layui-input-inline" style="width: 150px;">
+                                    <input id="input-lastAttemptAt" type="text" name="lastAttemptAt" autocomplete="off" placeholder="请选择上次尝试发布/更新的时间" class="layui-input">
+                                </div>
+                                <div class="layui-form-mid layui-word-aux">提示：---</div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">成功发布到此平台的时间</label>
+                                <div class="layui-input-inline" style="width: 150px;">
+                                    <input id="input-publishedAt" type="text" name="publishedAt" autocomplete="off" placeholder="请选择成功发布到此平台的时间" class="layui-input">
+                                </div>
+                                <div class="layui-form-mid layui-word-aux">提示：---</div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">最后一次成功同步/发布/更新到此平台的时间</label>
+                                <div class="layui-input-inline" style="width: 150px;">
+                                    <input id="input-lastSuccessSyncAt" type="text" name="lastSuccessSyncAt" autocomplete="off" placeholder="请选择最后一次成功同步/发布/更新到此平台的时间" class="layui-input">
+                                </div>
+                                <div class="layui-form-mid layui-word-aux">提示：---</div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">记录创建时间</label>
+                                <div class="layui-input-inline" style="width: 150px;">
+                                    <input id="input-createdAt" type="text" name="createdAt" autocomplete="off" placeholder="请选择记录创建时间" class="layui-input">
+                                </div>
+                                <div class="layui-form-mid layui-word-aux">提示：---</div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">记录更新时间</label>
+                                <div class="layui-input-inline" style="width: 150px;">
+                                    <input id="input-updatedAt" type="text" name="updatedAt" autocomplete="off" placeholder="请选择记录更新时间" class="layui-input">
+                                </div>
+                                <div class="layui-form-mid layui-word-aux">提示：---</div>
+                        </div>
                         <div class="layui-form-item layui-hide">
                             <div class="layui-input-block">
                                 <button id="addBtn" class="layui-btn layui-btn-normal" lay-submit
@@ -102,11 +115,13 @@
         </div>
     </div>
 </div>
+
+<script src="../../layui/layui.js"></script>
 <script>
     layui.use(['jquery', 'form', 'layer', 'table', 'laydate'], function () {
         var $ = layui.jquery,
             form = layui.form,
-            layer = layui.layer,laydate = layui.laydate,
+            layer = layui.layer, laydate = layui.laydate,
             table = layui.table;
 
         /**
@@ -153,7 +168,7 @@
         function add(dataContent) {
             console.info("add", dataContent)
             $.ajax({
-                url: '../article/articlePublications/add',
+                url: '../../../article/articlePublications/add',
                 async: false,
                 type: "post",
                 dataType: "json",
@@ -177,3 +192,5 @@
         }
     });
 </script>
+</body>
+</html>

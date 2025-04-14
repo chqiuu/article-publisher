@@ -11,61 +11,28 @@
 </head>
 <body>
 <div class="layui-fluid">
-    <div class="layui-row layui-col-space15">
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">添加文章信息</div>
-                <div class="layui-card-body" pad15>
-                    <form class="layui-form layui-form-pane" action="">
-
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">文章标题</label>
-                                        <div class="layui-input-block">
-                                            <input id="input-title" type="text" name="title" placeholder="请输入文章标题" value="" class="layui-input">
-                                        </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">文章标签 (逗号分隔或其他格式)</label>
-                                        <div class="layui-input-block">
-                                            <input id="input-tags" type="text" name="tags" placeholder="请输入文章标签 (逗号分隔或其他格式)" value="" class="layui-input">
-                                        </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">文章在系统内的状态</label>
-                                        <div class="layui-input-block">
-                                            <input id="input-status" type="text" name="status" placeholder="请输入文章在系统内的状态" value="" class="layui-input">
-                                        </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">是否原创</label>
-                            </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">封面图片URL</label>
-                            <div class="layui-input-block">
-                                <input id="input-coverImageUrl" type="text" name="coverImageUrl" placeholder="请输入封面图片URL" value="" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item layui-form-text">
-                            <label class="layui-form-label">文章内容</label>
-                            <div class="layui-input-block">
-                                <div id="dom_mask" style="position: absolute; top: 40px; height: 20px; width: 100%;"></div>
-                                <div id="markdown-container" style="min-height: 600px"></div>
-                            </div>
-                        </div>
-                        <div class="layui-form-item layui-hide">
-                            <div class="layui-input-block">
-                                <button id="addBtn" class="layui-btn layui-btn-normal" lay-submit
-                                        lay-filter="addBtn">
-                                    保存
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+    <form class="layui-form layui-form-pane" action="">
+        <div class="layui-row">
+            <div class="layui-col-xs9">
+                <input id="input-title" type="text" name="title" placeholder="请输入文章标题" value="" class="layui-input">
+            </div>
+            <div class="layui-col-xs3">
+                <div class="grid-demo">
+                    <button id="addButton" type="button" class="layui-btn layui-btn-normal">
+                        保存
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div id="dom_mask" style="position: absolute; top: 40px; height: 20px; width: 100%;"></div>
+                <div id="markdown-container"></div>
+            </div>
+        </div>
+    </form>
 </div>
+
 <script src="../../cherry-markdown/dist/cherry-markdown.js"></script>
 <script src="../../cherry-markdown/pinyin/pinyin_dist.js"></script>
 <script src="../../cherry-markdown/index.js"></script>
@@ -74,7 +41,7 @@
     layui.use(['jquery', 'form', 'layer', 'table', 'laydate'], function () {
         var $ = layui.jquery,
             form = layui.form,
-            layer = layui.layer,laydate = layui.laydate,
+            layer = layui.layer, laydate = layui.laydate,
             table = layui.table;
 
         // fetch('./assets/markdown/basic.md').then((response) => response.text()).then((value) => {
@@ -83,7 +50,7 @@
         // });
         // 延时执行
         setTimeout(function () {
-            var config = Object.assign({}, basicConfig, { value: '# welcome to cherry editor!' });
+            var config = Object.assign({}, basicConfig, {value: '# welcome to cherry editor!'});
             window.cherry = new Cherry(config);
         }, 1000);
         /**
@@ -101,31 +68,59 @@
             elem: '#input-publishedAt'
         });
 
-        // 保存
-        form.on('submit(addBtn)', function (data) {
-            var dataContent = {
-                userId: $("#input-userId").val(),
-                title: $("#input-title").val(),
-                slug: $("#input-slug").val(),
-                contentMd: $("#input-contentMd").val(),
-                coverImageUrl: $("#input-coverImageUrl").val(),
-                tags: $("#input-tags").val(),
-                status: $("#input-status").val(),
-                isOriginal: $("#input-isOriginal").val(),
-                sourcePlatformId: $("#input-sourcePlatformId").val(),
-                sourceUrl: $("#input-sourceUrl").val(),
-                createdAt: $("#input-createdAt").val(),
-                updatedAt: $("#input-updatedAt").val(),
-                publishedAt: $("#input-publishedAt").val(),
-            }
-            add(dataContent)
-            return false;
+        $("#addButton").click(function () {
+            layer.open({
+                type: 1,
+                offset: 'r',
+                anim: 'slideLeft', // 从右往左
+                area: ['400px', '100%'],
+                shade: 0.1,
+                shadeClose: true,
+                id: 'ID-demo-layer-direction-r',
+                content: `
+<div class="layui-form" lay-filter="filter-test-layer" style="margin: 16px;">
+    <div class="demo-login-container">
+        <div class="layui-form-item">
+            <label class="layui-form-label">封面图片</label>
+            <div class="layui-input-block">
+                <input id="input-coverImageUrl" type="text" name="coverImageUrl" placeholder="请输入封面图片URL" value="" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">文章标签</label>
+            <div class="layui-input-block">
+                <input id="input-tags" type="text" name="tags" placeholder="请输入文章标签 (逗号分隔或其他格式)" value="" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否原创</label>
+        </div>
+        <div class="layui-form-item">
+            <button id="save-btn" class="layui-btn layui-btn-normal" lay-submit lay-filter="save-btn-filter">确认并保存</button>
+        </div>
+    </div>
+</div>
+                `, success: function(layero, index){
+                    // 在 layer.open 成功打开后绑定 #save-btn 的点击事件
+                    $("#save-btn").on('click', function () {
+                        var dataContent = {
+                            title: $("#input-title").val(),
+                            contentMd: window.cherry.getMarkdown(),
+                            coverImageUrl: $("#input-coverImageUrl").val(),
+                            tags: $("#input-tags").val(),
+                            isOriginal: $("#input-isOriginal").val(),
+                        }
+                        console.info("save-btn", dataContent)
+                        add(dataContent)
+                    });
+                }
+            });
         });
 
         function add(dataContent) {
             console.info("add", dataContent)
             $.ajax({
-                url: '../article/articles/add',
+                url: '../../../../article/articles/add',
                 async: false,
                 type: "post",
                 dataType: "json",
@@ -135,8 +130,9 @@
                     console.log("提交信息", res)
                     if (res.code === 1) {
                         layer.msg("保存成功", {time: 2000}, function () {
-                            const index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                            parent.layer.close(index);
+                            // 关闭当前网页并且刷新父页面
+                            window.parent.location.reload();
+                            window.close();
                         });
                     } else {
                         layer.msg('提交失败！【' + res.message + '】');

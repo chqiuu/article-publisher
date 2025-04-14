@@ -210,33 +210,9 @@
          * toolbar事件监听
          */
         table.on('toolbar(currentTableFilter)', function (obj) {
-            if (obj.event === 'add') {   // 监听添加操作
-                let index = parent.layer.open({
-                    title: '添加文章信息',
-                    type: 2,
-                    shade: 0.2,
-                    maxmin: true,
-                    shadeClose: true,
-                    btnAlign: "c",
-                    area: ['90%', '95%'],
-                    content: 'res/views/article/articlesAdd.html',
-                    btn: ['保存', '取消'],
-                    yes: function (index, layero) {
-                        const body = layer.getChildFrame('body', index);
-                        // 点击子页面的对应按钮
-                        body.find("#addBtn").click()
-                    },
-                    btn3: function (index, layero) {
-                        //最后关闭弹出层
-                        layer.close(index); //如果设定了yes回调，需进行手工关闭
-                    }, end: function () {
-                        //重载表格
-                        tableReload()
-                    }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
-                });
+            if (obj.event === 'add') {
+                // 在新的窗口中打开页面
+                window.open('res/views/article/articlesAdd.html',"_blank");
             } else if (obj.event === 'delete') {  // 监听删除操作
                 let checkStatus = table.checkStatus('currentTableId')
                     , data = checkStatus.data;
