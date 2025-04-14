@@ -126,7 +126,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         //设置首页地址 redirect forward
-        registry.addViewController("/").setViewName("redirect:/static/page/index.html");
+        registry.addViewController("/").setViewName("redirect:/static/index.html");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
 
